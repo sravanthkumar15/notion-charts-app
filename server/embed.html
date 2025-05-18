@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embedded Notion Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { margin: 0; padding: 0; }
+    #chart-container { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body>
+  <div id="chart-container">
+    <canvas id="embedChart" width="700" height="400"></canvas>
+  </div>
+  <script>
+    async function fetchChartData() {
+      const params = new URLSearchParams(window.location.search);
+      const db = params.get('db');
+      const x = params.get('x');
+      const y = params.get('y');
+      const type = params.get('type') || 'bar';
+      const res = await fetch('/api/fetch-database', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ databaseId: db })
+      });
+      const result = await res.json();
+      if (!result.success) return;
+      const data = result.data;
+      const labels = data.map(row => {
+        const prop = row.properties[x];
+        if (prop.type === 'title' && prop.title.length) return prop.title[0].plain_text;
+        if (prop.type === 'rich_text' && prop.rich_text.length) return prop.rich_text[0].plain_text;
+        if (prop.type === 'select' && prop.select) return prop.select.name;
+        return '';
+      });
+      const values = data.map(row => {
+        const prop = row.properties[y];
+        if (prop.type === 'number') return prop.number;
+        return 0;
+      });
+      new Chart(document.getElementById('embedChart').getContext('2d'), {
+        type,
+        data: { labels, datasets: [{ label: y, data: values, backgroundColor: '#4f8cff' }] },
+        options: { responsive: true }
+      });
+    }
+    fetchChartData();
+  </script>
+</body>
+</html>
