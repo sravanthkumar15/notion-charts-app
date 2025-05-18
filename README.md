@@ -1,35 +1,12 @@
-# Notion Chart Generator
+# React + Vite
 
-An application that converts Notion database data into beautiful charts that can be embedded back into Notion pages.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Setup
+Currently, two official plugins are available:
 
-1. Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-2. Create a `.env` file in the root directory with your Notion API token:
-```
-NOTION_TOKEN=your_notion_api_token_here
-```
+## Expanding the ESLint configuration
 
-3. Run the application:
-```bash
-python app.py
-```
-
-## Usage
-
-1. Open your browser and navigate to `http://localhost:5000`
-2. Enter your Notion Database ID
-3. Click "Generate Chart"
-4. Copy the embed code and paste it into your Notion page
-
-## Features
-
-- Converts Notion database data into interactive charts
-- Supports multiple chart types (bar, line, pie)
-- Generates embeddable iframe code for Notion
-- Responsive design
-- Real-time chart updates
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
